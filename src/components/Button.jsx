@@ -8,7 +8,7 @@ export default function Button({
     ...props
 }) {
     return (
-        <button className={`px-8 text-base py-1.5 rounded-md cursor-pointe ${bg?`bg-[${bg}]`:null} ${className}`} {...props}>
+        <button style={{background:bg}} className={`px-8 text-base py-1.5 rounded-md cursor-pointe bg-[${bg}] ${className}`} {...props}>
             {children}
         </button>
     );

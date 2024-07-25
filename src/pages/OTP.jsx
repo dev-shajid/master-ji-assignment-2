@@ -30,6 +30,7 @@ export default function OTP() {
             let newArr = [...otp];
             newArr[index] = '';
             setOtp(newArr);
+            otpBoxReference.current[index - 1].focus()
         }
         if ([' ', 'Enter'].some(k => e.key == k) && e.target.value && index < otpLength - 1) {
             otpBoxReference.current[index + 1].focus()

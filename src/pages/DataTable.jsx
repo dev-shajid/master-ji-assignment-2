@@ -10,12 +10,13 @@ export default function DataTable() {
   const [pageCount, setPageCount] = useState(0)
   const [hasNext, setHasNext] = useState(true)
   const [hasPrevious, setHasPrevious] = useState(true)
+  const [searchedBatches, setSearchedBatches] = useState([])
   const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
-    const filteredBatches = (searchValue?filterBatches:batches).slice(page * limit, (page + 1) * limit)
+    const filteredBatches = (searchValue?searchedBatches:batches).slice(page * limit, (page + 1) * limit)
     setFilterBatches(filteredBatches)
-    setPageCount(Math.ceil(filteredBatches.length / limit))
+    setPageCount(Math.ceil((searchValue?searchedBatches:batches).length / limit))
     setHasNext(page < pageCount - 1)
     setHasPrevious(page > 0)
   }, [page, limit, pageCount, searchValue])
@@ -32,7 +33,7 @@ export default function DataTable() {
     const v = e.target.value.trim()
     setSearchValue(v)
     const filtered = batches.filter(batch => batch.title.toLowerCase().includes(v.toLowerCase()))
-    setFilterBatches(filtered)
+    setSearchedBatches(filtered)
     // setPageCount(Math.ceil(filtered.length / limit))
   }
 
@@ -50,7 +51,7 @@ export default function DataTable() {
           value={searchValue}
           onChange={handleSearch}
         />
-        <Button className='bg-[#6C6BAF] text-white'>Search</Button>
+        <Button className='!bg-[#6C6BAF] text-white'>Search</Button>
       </div>
 
 
@@ -83,7 +84,7 @@ export default function DataTable() {
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{course.price}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{course.validityExpiry}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                          <div className='bg-[#DBFFCE] inline-block border font-light rounded-sm text-xs px-2 py-0.5 capitalize'>{course.status}</div>
+                          <div className={`${course.status=='Published'?'bg-[#DBFFCE] border-[#4ED04B]':'bg-[#F3F3F3] border-[#A4A4A4]'} inline-block border font-light rounded-sm text-xs px-2 py-0.5 capitalize`}>{course.status}</div>
                         </td>
                       </tr>
                     ))
